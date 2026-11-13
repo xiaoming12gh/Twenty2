@@ -1,76 +1,125 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My First Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="UC San Diego ECE 5 robot project — hardware, sensors, source code, and project gallery.">
+  <meta name="theme-color" content="#0a1530">
+  <title>ECE 5 | Robotics Project</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: #f2f5fa;
-      padding: 60px 20px;
+    :root {
+      color-scheme: dark;
+      --bg: #071225;
+      --bg2: #0d1b35;
+      --card: #101f39;
+      --stroke: rgba(194, 220, 255, .16);
+      --text: #f3f7ff;
+      --sub: #aebfd8;
+      --accent: #79e1c6;
+      --blue: #93baff;
+      --radius: 20px;
     }
-    h1 {
-      color: #254675;
-    }
-    button {
-      background: #254675;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; }
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
+    .wrap { width: min(1080px, calc(100% - 44px)); margin: 0 auto; }
+    header { position: sticky; top: 0; z-index: 5; background: rgba(7,18,37,.91); border-bottom: 1px solid var(--stroke); backdrop-filter: blur(12px); }
+    nav { display: flex; justify-content: space-between; align-items: center; min-height: 74px; gap: 20px; }
+    .brand { font-weight: 800; font-size: 1.04rem; letter-spacing: .03em; display: flex; align-items: center; gap: 11px; }
+    .brand-mark { background: var(--accent); color: #07251e; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 10px; font-size: .83rem; }
+    .nav-links { display: flex; flex-wrap: wrap; gap: 22px; font-size: .9rem; color: var(--sub); }
+    .nav-links a:hover, .text-link:hover { color: var(--accent); }
+    .hero { padding: 100px 0 85px; background: radial-gradient(ellipse at 86% 14%, rgba(64, 123, 196, .28), transparent 47%), radial-gradient(ellipse at 10% 80%, rgba(36, 141, 139, .13), transparent 45%); border-bottom: 1px solid var(--stroke); }
+    .eyebrow { font-size: .77rem; font-weight: 800; letter-spacing: .17em; color: var(--accent); text-transform: uppercase; }
+    h1 { margin: 16px 0 17px; font-size: clamp(2.4rem, 6.2vw, 4.9rem); letter-spacing: -.055em; line-height: 1.1; max-width: 850px; }
+    .lead { max-width: 660px; color: var(--sub); font-size: 1.08rem; margin: 0 0 30px; }
+    .tags { display: flex; gap: 9px; flex-wrap: wrap; margin-bottom: 34px; }
+    .tag { border: 1px solid rgba(121,225,198,.25); background: rgba(121,225,198,.08); color: #a8f0db; padding: 5px 12px; border-radius: 999px; font-size: .78rem; font-weight: 650; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; border-radius: 11px; padding: 12px 19px; background: var(--accent); color: #06221c; font-weight: 800; transition: transform .15s ease; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-outline { background: transparent; border: 1px solid var(--stroke); color: var(--text); margin-left: 10px; }
+    section { padding: 76px 0 6px; scroll-margin-top: 95px; }
+    h2 { font-size: clamp(1.65rem, 3vw, 2.25rem); letter-spacing: -.035em; margin: 7px 0 10px; }
+    .section-desc { margin: 0 0 27px; color: var(--sub); max-width: 720px; }
+    .feature-grid, .code-grid, .gallery-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 17px; }
+    .feature, .code-card, .gallery-card { background: linear-gradient(155deg, rgba(20,39,71,.95), rgba(11,27,51,.95)); border: 1px solid var(--stroke); border-radius: var(--radius); overflow: hidden; }
+    .feature, .code-card { padding: 26px; }
+    .mini-icon { display: inline-flex; width: 43px; height: 43px; background: rgba(121,225,198,.1); color: var(--accent); font-size: 1.2rem; align-items: center; justify-content: center; border-radius: 12px; margin-bottom: 16px; }
+    h3 { font-size: 1.07rem; margin: 0 0 7px; }
+    .feature p, .code-card p { margin: 0; color: var(--sub); font-size: .93rem; }
+    .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .gallery-card img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; background: #1e3659; }
+    .gallery-info { padding: 16px 20px; }
+    .gallery-info p { font-size: .88rem; color: var(--sub); margin: 4px 0 0; }
+    .code-card { display: flex; flex-direction: column; gap: 12px; }
+    .filetag { display: inline-block; align-self: flex-start; border: 1px solid var(--stroke); border-radius: 8px; color: var(--blue); padding: 3px 8px; font: 650 .75rem ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .text-link { color: var(--accent); font-weight: 750; font-size: .9rem; margin-top: auto; padding-top: 13px; }
+    .note { margin-top: 31px; border: 1px dashed rgba(121,225,198,.3); border-radius: 16px; color: var(--sub); padding: 20px 24px; font-size: .91rem; }
+    footer { margin-top: 84px; border-top: 1px solid var(--stroke); padding: 29px 0; color: var(--sub); font-size: .88rem; }
+    .footer-flex { display:flex; align-items:center; justify-content: space-between; gap: 15px; flex-wrap:wrap; }
+    @media(max-width: 770px) { .hero { padding: 70px 0; } .feature-grid, .code-grid { grid-template-columns: 1fr; } .gallery-grid { grid-template-columns: 1fr; } .nav-links { gap: 12px; font-size: .8rem; } .btn-outline { margin: 12px 0 0; } }
+    @media(max-width: 470px) { .nav-links a:first-child { display: none; } .brand { font-size: .9rem; } .wrap { width: calc(100% - 30px); } }
   </style>
 </head>
-
-
-<section>
-  <h2>ECE 5 - Robot Project</h2>
-  <p>
-    This project is part of UCSD ECE 5.
-    We built a robot using an ESP32,
-    light sensors, and motor control.
-  </p>
-
-  <h3>Robot Photos</h3>
-  <img src="images/robot.jpg"
-       alt="Our robot"
-       width="500">
-
-  <h3>Demonstration Video</h3>
-  <video width="500" controls>
-    <source src="videos/robot-demo.mp4"
-            type="video/mp4">
-    Your browser does not support video.
-  </video>
-
-  <h3>Source Code</h3>
-  <p>
-    <a href="code/photoresistor.ino">
-      Photoresistor Code
-    </a>
-  </p>
-  <p>
-    <a href="code/potentiometer.ino">
-      Potentiometer Code
-    </a>
-  </p>
-</section>
-
 <body>
-  <h1>Welcome to My Website!</h1>
-  <p>Hello! I'm an Electrical Engineering student at UCSD.</p>
-  <p>This is my first website hosted on GitHub Pages.</p>
+  <header>
+    <nav class="wrap" aria-label="Main navigation">
+      <a class="brand" href="#home"><span class="brand-mark">E5</span> ECE 5 Robotics</a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#code">Source Code</a>
+      </div>
+    </nav>
+  </header>
 
-  <button onclick="sayHello()">Click Me!</button>
+  <main>
+    <div class="hero" id="home">
+      <div class="wrap">
+        <div class="eyebrow">UC San Diego · ECE 5</div>
+        <h1>From Circuits<br>to Code.</h1>
+        <p class="lead">A project showcase for our ECE 5 robotics work: sensor experiments, embedded programming, and hardware prototyping. Follow our progress through photos and source code.</p>
+        <div class="tags"><span class="tag">ESP32</span><span class="tag">Arduino / C++</span><span class="tag">Sensors</span><span class="tag">Prototyping</span></div>
+        <a class="btn" href="#gallery">Explore the project <span aria-hidden="true">↗</span></a>
+        <a class="btn btn-outline" href="#code">Browse source code</a>
+      </div>
+    </div>
 
-  <script>
-    function sayHello() {
-      alert("Hello from UCSD!");
-    }
-  </script>
+    <section class="wrap" id="about">
+      <div class="eyebrow">Overview</div>
+      <h2>What we're building</h2>
+      <p class="section-desc">Our ECE 5 work connects basic electronics with practical programming. This page collects project materials and will grow as the robot takes shape.</p>
+      <div class="feature-grid">
+        <article class="feature"><span class="mini-icon" aria-hidden="true">◉</span><h3>Light Sensors</h3><p>Read photoresistor signals with the ESP32's analog inputs.</p></article>
+        <article class="feature"><span class="mini-icon" aria-hidden="true">◈</span><h3>Potentiometers</h3><p>Adjust parameters using physical controls and inspect their values in Serial Monitor.</p></article>
+        <article class="feature"><span class="mini-icon" aria-hidden="true">⌘</span><h3>Embedded Code</h3><p>Explore the Arduino code used in our experiments and prototypes.</p></article>
+      </div>
+    </section>
+
+    <section class="wrap" id="gallery">
+      <div class="eyebrow">Visual Log</div>
+      <h2>Project gallery</h2>
+      <p class="section-desc">Two snapshots from our work. Replace these files with your own project images.</p>
+      <div class="gallery-grid">
+        <figure class="gallery-card" style="margin:0"><img src="images/photo1.jpg" alt="First photo from the ECE 5 project" loading="lazy"><figcaption class="gallery-info"><h3>Project Photo 01</h3><p>Our hardware and prototype</p></figcaption></figure>
+        <figure class="gallery-card" style="margin:0"><img src="images/photo2.jpg" alt="Second photo from the ECE 5 project" loading="lazy"><figcaption class="gallery-info"><h3>Project Photo 02</h3><p>Sensors, circuits, or testing</p></figcaption></figure>
+      </div>
+    </section>
+
+    <section class="wrap" id="code">
+      <div class="eyebrow">Repository</div>
+      <h2>Source code</h2>
+      <p class="section-desc">Three project files. Use the links to view the source directly on GitHub.</p>
+      <div class="code-grid">
+        <article class="code-card"><span class="filetag">.ino</span><h3>Potentiometer Control</h3><p>Read four potentiometers to set speed and controller parameters.</p><a class="text-link" href="https://github.com/xiaoming12gh/xiaoming12gh.github.io/blob/main/code/potentiometer.ino" target="_blank" rel="noopener noreferrer">View code on GitHub ↗</a></article>
+        <article class="code-card"><span class="filetag">.ino</span><h3>Photoresistor Reading</h3><p>Collect analog readings from an array of light sensors.</p><a class="text-link" href="https://github.com/xiaoming12gh/xiaoming12gh.github.io/blob/main/code/photoresistor.ino" target="_blank" rel="noopener noreferrer">View code on GitHub ↗</a></article>
+        <article class="code-card"><span class="filetag">.ino</span><h3>Additional Project Code</h3><p>Our third source file. Update this description to match its function.</p><a class="text-link" href="https://github.com/xiaoming12gh/xiaoming12gh.github.io/blob/main/code/project3.ino" target="_blank" rel="noopener noreferrer">View code on GitHub ↗</a></article>
+      </div>
+      <div class="note"><strong style="color:var(--text)">More to come.</strong> We'll add a robot demonstration video here when it's ready.</div>
+    </section>
+  </main>
+  <footer><div class="wrap footer-flex"><span>ECE 5 Robotics Project · UC San Diego</span><span>Built with HTML &amp; CSS · Hosted on GitHub Pages</span></div></footer>
 </body>
 </html>
