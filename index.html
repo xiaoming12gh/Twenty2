@@ -1,273 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Twenty2 — UC San Diego ECE 5 robotics project, team, sensor experiments, photos, and source code.">
-  <meta name="theme-color" content="#071225">
-  <title>Twenty2 | ECE 5 Robotics Project</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#09162b">
+  <meta name="description" content="Twenty2 — UC San Diego ECE 5 line-following robot: build process, controls, PID, code, team and competition portfolio.">
+  <title>Twenty2 | ECE 5 Robotics & Control</title>
   <style>
-    :root {
-      color-scheme: dark;
-      --bg: #071225;
-      --panel: #11213c;
-      --panel2: #0c1b32;
-      --border: rgba(194,220,255,.16);
-      --text: #f3f7ff;
-      --muted: #b5c6dd;
-      --mint: #79e1c6;
-      --blue: #a4c5ff;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { margin: 0; color: var(--text); background: var(--bg); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.65; }
-    a { color: inherit; text-decoration: none; }
-    a:focus-visible { outline: 3px solid var(--mint); outline-offset: 4px; border-radius: 4px; }
-    .wrap { width: min(1100px, calc(100% - 44px)); margin: 0 auto; }
-    header { position: sticky; z-index: 5; top: 0; background: rgba(7,18,37,.94); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); }
-    nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 22px; }
-    .brand { display: flex; gap: 10px; align-items: center; font-weight: 800; letter-spacing: .025em; }
-    .mark { background: var(--mint); color: #07251e; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 11px; font-size: .87rem; font-weight: 900; }
-    .navlinks { display: flex; flex-wrap: wrap; gap: 22px; color: var(--muted); font-size: .9rem; }
-    .navlinks a:hover, .link:hover { color: var(--mint); }
-    .hero { padding: 104px 0 91px; border-bottom: 1px solid var(--border); background: radial-gradient(ellipse at 87% 15%,rgba(80,122,191,.25),transparent 47%),radial-gradient(ellipse at 10% 85%,rgba(33,148,136,.12),transparent 44%); }
-    .eyebrow { color: var(--mint); text-transform: uppercase; font-size: .76rem; font-weight: 800; letter-spacing: .17em; }
-    h1 { max-width: 950px; margin: 16px 0 20px; font-size: clamp(2.65rem,6vw,5rem); letter-spacing: -.055em; line-height: 1.1; }
-    h1 .accent { color: var(--mint); }
-    .lead { max-width: 725px; color: var(--muted); font-size: 1.09rem; margin: 0 0 26px; }
-    .tags { display: flex; flex-wrap: wrap; gap: 9px; margin: 0 0 32px; }
-    .tag { border: 1px solid rgba(121,225,198,.28); background: rgba(121,225,198,.08); padding: 5px 12px; border-radius: 999px; color: #b0f0e0; font-size: .8rem; font-weight: 650; }
-    .buttons { display:flex; flex-wrap: wrap; gap: 12px; }
-    .btn { background: var(--mint); color: #06221c; padding: 12px 19px; border-radius: 11px; font-weight: 800; display: inline-flex; align-items: center; gap: 8px; transition: transform .16s ease; }
-    .btn:hover { transform: translateY(-2px); }
-    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
-    section { padding-top: 77px; scroll-margin-top: 94px; }
-    h2 { font-size: clamp(1.8rem,3vw,2.3rem); letter-spacing: -.04em; margin: 8px 0 10px; line-height: 1.25; }
-    h3 { font-size: 1.08rem; margin: 0 0 8px; }
-    .section-desc { margin: 0 0 28px; max-width: 780px; color: var(--muted); }
-    .features, .code-grid, .team-grid, .gallery-grid { display: grid; gap: 18px; }
-    .features { grid-template-columns: repeat(3,minmax(0,1fr)); }
-    .code-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
-    .team-grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
-    .gallery-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
-    .card { background: linear-gradient(155deg,var(--panel),var(--panel2)); border: 1px solid var(--border); border-radius: 19px; padding: 25px; min-width: 0; }
-    .card p { margin: 0; color: var(--muted); font-size: .92rem; }
-    .icon { display:grid; place-items:center; width: 42px; height: 42px; color: var(--mint); background: rgba(121,225,198,.1); border-radius: 12px; font-size: 1.1rem; margin-bottom: 15px; }
-    .image-card { padding: 0; overflow: hidden; }
-    .image-card img { display:block; width:100%; aspect-ratio: 16/10; object-fit:cover; background: #1e3659; }
-    .image-body { padding: 16px 20px; }
-    .image-body h3 { overflow-wrap:anywhere; }
-    .image-body p { margin: 0; color: var(--muted); font-size:.86rem; }
-    .code-card { display: flex; flex-direction: column; gap: 10px; }
-    .filetag { display: inline-block; align-self: flex-start; border: 1px solid var(--border); color: var(--blue); border-radius: 8px; padding: 4px 9px; font: 700 .78rem ui-monospace, SFMono-Regular, Consolas, monospace; }
-    .filename { color: var(--muted); font-size: .8rem; overflow-wrap: anywhere; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
-    .link { color: var(--mint); font-weight: 750; font-size: .92rem; margin-top: auto; padding-top: 10px; align-self: flex-start; }
-    .person { display:flex; align-items:center; gap: 12px; }
-    .avatar { flex: 0 0 42px; display:grid; place-items:center; width:42px; height:42px; border-radius: 14px; background:rgba(164,197,255,.12); border:1px solid var(--border); color:var(--blue); font-weight:800; }
-    .person h3 { margin:0; overflow-wrap:anywhere; font-size:1rem; }
-    .status { border: 1px dashed rgba(121,225,198,.3); padding: 20px 24px; border-radius: 15px; color: var(--muted); background: rgba(121,225,198,.025); }
-    .note { font-size: .88rem; color: var(--muted); margin-top: 14px; }
-    footer { border-top: 1px solid var(--border); padding: 29px 0; margin-top: 85px; color: var(--muted); font-size: .89rem; }
-    .footer-flex { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
-    @media (max-width: 900px) { .features { grid-template-columns: repeat(2,minmax(0,1fr)); } .team-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
-    @media (max-width: 690px) { .hero { padding: 70px 0; } .features,.code-grid,.gallery-grid { grid-template-columns: 1fr; } .navlinks { gap: 11px; font-size: .78rem; } .wrap { width: calc(100% - 30px); } nav { flex-wrap:wrap; padding: 12px 0; gap:9px; } }
-    @media (max-width: 470px) { .team-grid { grid-template-columns: 1fr; } }
+    :root{color-scheme:dark;--bg:#081426;--panel:#102139;--panel2:#132944;--ink:#edf5ff;--muted:#adc0d7;--dim:#7890ac;--line:#28435c;--mint:#7ee9cc;--blue:#8ebaff;--warm:#f6ce8b;--max:1150px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:94px}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.65}a{color:inherit;text-decoration:none}a:hover{color:var(--mint)}a:focus-visible,button:focus-visible{outline:3px solid var(--mint);outline-offset:3px}h1,h2,h3,p{margin-top:0}h1{font-size:clamp(2.8rem,6vw,5.65rem);letter-spacing:-.065em;line-height:1.06;margin:15px 0 21px;font-weight:800}h2{font-size:clamp(1.85rem,3.3vw,2.7rem);letter-spacing:-.045em;line-height:1.18;margin:7px 0 15px}h3{font-size:1.1rem;margin:0 0 9px;letter-spacing:-.015em}p{color:var(--muted)}small{color:var(--dim)}code{font-family:ui-monospace,Consolas,monospace;font-size:.92em;color:#bbd8fc}strong{color:var(--ink)}.wrap{width:min(var(--max),calc(100% - 44px));margin:auto}.section{padding:78px 0 4px;scroll-margin-top:100px}.eyebrow{text-transform:uppercase;font-size:.74rem;letter-spacing:.2em;font-weight:800;color:var(--mint)}.desc{max-width:850px;color:var(--muted);margin-bottom:27px}.muted{color:var(--muted)}.tiny{font-size:.83rem}.line{border-top:1px solid var(--line)}
+    header{position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(142,186,255,.14);background:rgba(8,20,38,.94);backdrop-filter:blur(15px)}.topbar{display:flex;align-items:center;justify-content:space-between;gap:22px;min-height:76px}.brand{display:flex;align-items:center;gap:11px;font-weight:850;letter-spacing:.01em;white-space:nowrap}.logo{display:grid;place-items:center;height:40px;width:40px;border-radius:11px;background:var(--mint);color:#05241e;font-weight:900}.nav{display:flex;gap:18px;align-items:center;overflow-x:auto;scrollbar-width:none;font-size:.88rem;color:#b9c9de;white-space:nowrap}.nav::-webkit-scrollbar{display:none}
+    .hero{overflow:hidden;border-bottom:1px solid var(--line);background:radial-gradient(ellipse at 75% 24%,rgba(61,119,175,.20),transparent 48%),radial-gradient(ellipse at 8% 83%,rgba(29,141,125,.13),transparent 46%)}.hero-grid{display:grid;grid-template-columns:1.12fr .88fr;align-items:center;gap:45px;padding:93px 0 91px}.accent{color:var(--mint)}.lead{font-size:1.08rem;max-width:655px;margin:0 0 28px}.chips{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 31px}.chip,.pill{padding:5px 10px;border-radius:100px;border:1px solid rgba(126,233,204,.27);color:#b6f2e2;background:rgba(126,233,204,.06);font-size:.76rem;font-weight:700}.actions{display:flex;gap:12px;flex-wrap:wrap}.button{display:inline-flex;align-items:center;justify-content:center;background:var(--mint);color:#05261d;padding:12px 18px;border-radius:10px;font-weight:800;font-size:.9rem;border:1px solid transparent}.button:hover{transform:translateY(-1px);color:#05261d}.button.secondary{background:transparent;color:var(--ink);border-color:var(--line)}.button.secondary:hover{color:var(--mint)}
+    .schematic{border:1px solid var(--line);border-radius:24px;background:linear-gradient(156deg,#172f4d,#0d1b31);padding:15px;box-shadow:0 30px 75px rgba(0,0,0,.23)}.schematic svg{display:block;width:100%;height:auto}.schematic-cap{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);font-size:.79rem;color:var(--muted);padding:11px 7px 1px;gap:8px}.dots{color:var(--mint);letter-spacing:4px}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:-26px;position:relative}.stat{border:1px solid var(--line);border-radius:15px;background:#10213b;padding:20px 25px}.stat b{display:block;font-size:1.65rem;color:var(--ink);line-height:1.2}.stat span{font-size:.83rem;color:var(--muted)}
+    .grid3,.grid2,.people,.timeline,.media-grid,.score-grid{display:grid;gap:17px}.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid2,.media-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.people{grid-template-columns:repeat(4,minmax(0,1fr))}.card{min-width:0;border:1px solid var(--line);border-radius:18px;background:linear-gradient(148deg,var(--panel2),var(--panel));padding:24px}.card p:last-child{margin-bottom:0}.card-title{display:flex;align-items:center;gap:11px;margin-bottom:10px}.circle{width:37px;height:37px;display:grid;place-items:center;flex:0 0 37px;border:1px solid rgba(126,233,204,.27);border-radius:11px;color:var(--mint);background:rgba(126,233,204,.07);font-weight:800}.callout{padding:22px;border:1px dashed #3c6b70;border-radius:15px;background:rgba(126,233,204,.032);color:var(--muted)}.callout strong{display:block;margin-bottom:5px}.callout p{margin:0}.inline-link{color:var(--mint);font-weight:750}.inline-link:hover{text-decoration:underline}
+    .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}.step{padding:22px 19px;border-radius:16px;border:1px solid var(--line);background:#11223c}.step .number{color:var(--mint);font-weight:900;font-size:1.75rem;letter-spacing:-.05em}.step h3{margin:2px 0 5px}.step p{margin:0;font-size:.85rem}
+    .challenge-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.challenge{padding:25px;border:1px solid var(--line);background:#10213a;border-radius:18px;scroll-margin-top:105px}.challenge-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}.stepnum{color:var(--mint);font-size:.76rem;text-transform:uppercase;font-weight:900;letter-spacing:.13em}.pending{font-size:.73rem;color:#f0d2a0;border:1px solid rgba(246,206,139,.26);background:rgba(246,206,139,.06);padding:3px 9px;border-radius:30px;white-space:nowrap}.challenge h3{font-size:1.24rem}.challenge p{font-size:.91rem}.evidence{border-top:1px solid var(--line);margin-top:18px;padding-top:16px;font-size:.85rem;color:var(--dim)}.challenge .evidence a{color:var(--mint)}
+    .gallery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.photo{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--panel);margin:0}.photo img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:#213852}.photo figcaption{padding:13px 16px}.photo figcaption b{display:block;font-size:.9rem;overflow-wrap:anywhere}.photo figcaption a{font-size:.78rem;color:var(--mint)}.empty{padding:30px;text-align:center;color:var(--muted);border:1px dashed #47637b;border-radius:15px;background:rgba(142,186,255,.035)}.empty .em-symbol{font-size:2rem;display:block;margin-bottom:7px;color:var(--mint)}.empty p{margin:8px 0 0;font-size:.87rem}.featured .photo img{aspect-ratio:16/10;object-fit:contain}.featured{min-height:245px}.featured .empty{min-height:245px;display:flex;align-items:center;justify-content:center;flex-direction:column}.gallery-help{font-size:.87rem;margin-top:12px}
+    .pid-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.pid-letter{font-size:2.1rem;font-weight:900;color:var(--mint);letter-spacing:-.06em}.formula{padding:22px 25px;border:1px solid #426f72;border-radius:15px;color:#c9f9ed;background:rgba(126,233,204,.06);font-family:ui-monospace,Consolas,monospace;font-size:clamp(.85rem,1.7vw,1.06rem);overflow:auto;margin-bottom:20px}.data-table{width:100%;border-collapse:collapse;background:#0e2038;border:1px solid var(--line);border-radius:13px;overflow:hidden;display:block;overflow-x:auto}.data-table table{width:100%;border-collapse:collapse;min-width:570px}.data-table th,.data-table td{padding:14px 17px;text-align:left;border-bottom:1px solid var(--line);font-size:.89rem}.data-table th{background:#18314e;color:#ecf6ff;font-size:.79rem;letter-spacing:.04em}.data-table tr:last-child td{border-bottom:none}.tbd{color:#f2d29f;font-style:italic}.table-caption{font-size:.8rem;color:var(--dim);margin-top:10px}
+    .file-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.file{padding:20px 22px;border:1px solid var(--line);background:#11223a;border-radius:15px;display:flex;flex-direction:column;gap:9px;min-width:0}.file .ext{align-self:flex-start;color:var(--blue);font:.72rem ui-monospace,Consolas,monospace;border:1px solid #355470;border-radius:7px;padding:4px 8px}.file strong{font-size:.94rem;overflow-wrap:anywhere}.file small{overflow-wrap:anywhere}.file a{color:var(--mint);font-weight:750;font-size:.86rem;margin-top:auto}.file:hover{border-color:#476a83}
+    .team-person{display:flex;flex-direction:column;gap:15px}.monogram{display:grid;place-items:center;width:55px;height:55px;border-radius:15px;background:rgba(142,186,255,.12);color:var(--blue);font-size:1.12rem;font-weight:800;border:1px solid rgba(142,186,255,.22)}.team-person h3{font-size:1.05rem}
+    .doc-viewer{width:100%;height:330px;border:1px solid var(--line);border-radius:10px;margin:12px 0;background:#eef1f5}.video-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}.video-item video{display:block;width:100%;border-radius:11px;background:#020509;margin:12px 0}.video-item h3{overflow-wrap:anywhere}.reflection{counter-reset:sentence;padding:0;list-style:none}.reflection li{counter-increment:sentence;display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);color:var(--muted)}.reflection li::before{content:counter(sentence,decimal-leading-zero);color:var(--mint);font-family:ui-monospace,monospace;font-weight:800}.checklist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.checkitem{display:flex;gap:11px;align-items:flex-start;padding:12px 15px;border:1px solid var(--line);border-radius:11px;background:#0c1c32;color:var(--muted);font-size:.87rem}.checkitem span{color:var(--mint)}
+    footer{margin-top:85px;padding:27px 0;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}.foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    @media(max-width:980px){.hero-grid{grid-template-columns:1fr;gap:30px}.schematic{max-width:650px}.steps{grid-template-columns:repeat(2,minmax(0,1fr))}.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.people{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:700px){.topbar{align-items:flex-start;flex-direction:column;padding:12px 0;gap:6px}.nav{width:100%;padding:6px 0}.wrap{width:calc(100% - 30px)}.hero-grid{padding:63px 0 69px}.section{padding-top:64px}.grid3,.grid2,.media-grid,.pid-grid,.challenge-list,.file-list,.video-list,.checklist{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.gallery-grid{grid-template-columns:1fr}.hero{overflow:visible}.doc-viewer{height:250px}}
+    @media(max-width:430px){.steps,.people{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-  <header>
-    <nav class="wrap" aria-label="Main navigation">
-      <a class="brand" href="#home"><span class="mark">22</span> Twenty2</a>
-      <div class="navlinks">
-        <a href="#about">About</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#code">Source Code</a>
-        <a href="#team">Our Team</a>
-      </div>
-    </nav>
-  </header>
+<header><div class="wrap topbar"><a class="brand" href="#top"><span class="logo">22</span><span>Twenty2 <span style="color:#93a9c6;font-weight:500">/ ECE 5</span></span></a><nav class="nav" aria-label="Main navigation"><a href="#roadmap">Roadmap</a><a href="#build">Robot Build</a><a href="#challenges">Challenges</a><a href="#pid">PID</a><a href="#competition">Competition</a><a href="#deliverables">Poster & Slides</a><a href="#team">Team</a></nav></div></header>
+<main id="top">
+  <div class="hero"><div class="wrap hero-grid"><div><div class="eyebrow">UC San Diego / Electrical & Computer Engineering 5 / Fall 2026</div><h1>Engineering a<br><span class="accent">line-following</span><br>robot.</h1><p class="lead">We are <strong>Twenty2</strong> — four teammates documenting how an idea becomes a robot, from sensor circuits and a 3D-printed chassis to PID control and the final competition.</p><div class="chips"><span class="chip">ESP32</span><span class="chip">7 light sensors</span><span class="chip">L298N</span><span class="chip">Arduino / C++</span><span class="chip">PID Control</span></div><div class="actions"><a class="button" href="#roadmap">Explore project stages ↗</a><a class="button secondary" href="#competition">Competition portfolio</a></div></div><div class="schematic" aria-label="Concept illustration of a line-following robot on a curving track"><svg viewBox="0 0 470 346" role="img" aria-label="Stylized concept schematic of a line-following robot and black line"><defs><linearGradient id="surface" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#193652"/><stop offset="1" stop-color="#10243e"/></linearGradient></defs><rect width="470" height="346" rx="16" fill="url(#surface)"/><g stroke="#34516d" stroke-width=".7" opacity=".43"><path d="M0 45H470M0 90H470M0 135H470M0 180H470M0 225H470M0 270H470M0 315H470"/><path d="M45 0V346M90 0V346M135 0V346M180 0V346M225 0V346M270 0V346M315 0V346M360 0V346M405 0V346M450 0V346"/></g><path d="M-18 284C70 281 99 206 163 199S284 241 324 166 379 79 495 65" fill="none" stroke="#80ebd1" stroke-width="20" stroke-linecap="round" opacity=".15"/><path d="M-18 284C70 281 99 206 163 199S284 241 324 166 379 79 495 65" fill="none" stroke="#80ebd1" stroke-width="3.5" stroke-dasharray="12 10" stroke-linecap="round"/><g transform="translate(232 169) rotate(-20)"><rect x="-80" y="-45" width="160" height="90" rx="15" fill="#7ba0d2" stroke="#c3ddff" stroke-width="3"/><rect x="-60" y="-60" width="39" height="16" rx="7" fill="#09172d"/><rect x="21" y="-60" width="39" height="16" rx="7" fill="#09172d"/><rect x="-60" y="44" width="39" height="16" rx="7" fill="#09172d"/><rect x="21" y="44" width="39" height="16" rx="7" fill="#09172d"/><rect x="-26" y="-29" width="52" height="58" rx="6" fill="#183653" stroke="#a8c7e8"/><rect x="-13" y="-16" width="26" height="27" rx="4" fill="#7ee9cc"/><path d="M-50 22h100" stroke="#163a58" stroke-width="3"/><g fill="#f3d28b"><circle cx="-55" cy="37" r="4"/><circle cx="-35" cy="37" r="4"/><circle cx="-15" cy="37" r="4"/><circle cx="5" cy="37" r="4"/><circle cx="25" cy="37" r="4"/><circle cx="45" cy="37" r="4"/></g></g><text x="24" y="35" fill="#b9d1e8" font-size="12" font-weight="650" letter-spacing="3">SYSTEM DIAGRAM · CONCEPT</text><text x="24" y="320" fill="#8cabc4" font-size="11">SENSORS → ERROR → PID → MOTOR RESPONSE</text></svg><div class="schematic-cap"><span>Conceptual illustration • not the final robot photo</span><span class="dots" aria-hidden="true">● ● ●</span></div></div></div></div>
+  <div class="wrap stats"><div class="stat"><b>4</b><span>Major phases of the lab</span></div><div class="stat"><b>3</b><span>Competition tracks</span></div><div class="stat"><b>4</b><span>Team members</span></div></div>
 
-  <main>
-    <div class="hero" id="home">
-      <div class="wrap">
-        <div class="eyebrow">UC San Diego · ECE 5 · Team Twenty2</div>
-        <h1>From Circuits<br>to <span class="accent">Code.</span></h1>
-        <p class="lead">We're Twenty2, a four-member ECE 5 project team documenting our work in electronics, embedded programming, sensors, and robotics. Explore our experiments through project photos and source code.</p>
-        <div class="tags"><span class="tag">ESP32</span><span class="tag">Arduino / C++</span><span class="tag">Light Sensors</span><span class="tag">Potentiometers</span></div>
-        <div class="buttons">
-          <a class="btn" href="#gallery">View project photos ↗</a>
-          <a class="btn btn-outline" href="#team">Meet Twenty2</a>
-        </div>
-      </div>
-    </div>
+  <section id="roadmap" class="section wrap"><div class="eyebrow">The roadmap</div><h2>From prototype to competition.</h2><p class="desc">Organized directly around the Lab 4 handout. Sections stay on this site as placeholders until we have real photos, code, measurements and results to add.</p><div class="steps"><a class="step" href="#challenges"><div class="number">01</div><h3>Build the parts</h3><p>Potentiometers, photoresistors, motors and CAD chassis.</p></a><a class="step" href="#build"><div class="number">02</div><h3>Assemble the robot</h3><p>Mount the components and integrate the hardware.</p></a><a class="step" href="#pid"><div class="number">03</div><h3>Calibration & PID</h3><p>Calibrate light sensors and tune line-following behavior.</p></a><a class="step" href="#competition"><div class="number">04</div><h3>Compete & reflect</h3><p>Record three track results, videos, poster and takeaways.</p></a></div></section>
 
-    <section class="wrap" id="about">
-      <div class="eyebrow">Overview</div>
-      <h2>What we're building</h2>
-      <p class="section-desc">Our ECE 5 activities connect basic circuit concepts with hands-on programming. This page collects the team's project materials as we develop and test our robot.</p>
-      <div class="features">
-        <article class="card"><span class="icon" aria-hidden="true">◉</span><h3>Photoresistors</h3><p>Collect analog sensor readings from an array of light-dependent resistors.</p></article>
-        <article class="card"><span class="icon" aria-hidden="true">◈</span><h3>Potentiometers</h3><p>Read adjustable physical inputs for speed and controller parameters.</p></article>
-        <article class="card"><span class="icon" aria-hidden="true">⌘</span><h3>Embedded Programming</h3><p>Use Arduino and ESP32 code to test and integrate our circuits.</p></article>
-      </div>
-    </section>
+  <section id="build" class="section wrap"><div class="eyebrow">Robot building / challenges 1–2</div><h2>Prototyping parts & assembly</h2><p class="desc">A place to document the component choices, 3D printing, wiring, mounting and mechanical changes from the earlier Challenge 1–2 submissions.</p><div class="grid2"><div class="card"><h3>Hardware & prototyping</h3><p>Lab 4's proposed components include an ESP32 development board, four potentiometers, seven photoresistors with 10 kΩ resistors, an L298N motor driver, two DC motors with wheels, a caster, a battery and a 3D-printed chassis.</p><p class="tiny">Document what Twenty2 actually used, and note any substitutions or custom modifications.</p></div><div class="card"><h3>Assembly log</h3><p>Save photos of the chassis, motor wiring, sensor height, breadboard placement and finished electrical connections. Explain how the physical layout supports reliable line detection.</p><p class="tiny">Suggested filename: <code>assembly.jpg</code> in the existing <code>images</code> folder.</p></div></div><div class="grid2" style="margin-top:17px"><div id="assembly-feature" class="featured"><div class="empty"><span class="em-symbol">▧</span><strong>Assembly photograph</strong><p>Upload <code>assembly.jpg</code> or an image with “assembly” in its name.</p></div></div><div class="card"><h3>What to explain here</h3><p><strong>Mechanical:</strong> chassis design, caster, wheel placement, sensor holder, 3D printed parts.</p><p><strong>Electrical:</strong> ESP32, light sensor voltage dividers, L298N driver, motors and power wiring.</p><p><strong>Testing:</strong> independent sensor and motor tests before running the integrated program.</p></div></div></section>
 
-    <section class="wrap" id="gallery">
-      <div class="eyebrow">Project Log</div>
-      <h2>Gallery</h2>
-      <p class="section-desc">Photos uploaded to our GitHub project's <code>ece5-github-site/images</code> folder appear here automatically, with no need to rename them.</p>
-      <div id="gallery-grid" class="gallery-grid" aria-live="polite"></div>
-      <div id="gallery-status" class="status" role="status">Loading project photos…</div>
-    </section>
+  <section id="challenges" class="section wrap"><div class="eyebrow">Lab 4 / Progress archive</div><h2>Every challenge, one place.</h2><p class="desc">These cards follow the terminology in the course handout. They are intentionally expandable: add descriptions and evidence as each task is completed.</p><div class="challenge-list">
+    <article class="challenge" id="challenge-1a"><div class="challenge-head"><span class="stepnum">Challenge 1A</span><span class="pending">Document as you go</span></div><h3>Potentiometers</h3><p>Four analog controls for Speed, <em>kP</em>, <em>kI</em> and <em>kD</em>. Confirm readings in Serial Monitor and record how rotating the knobs changes their output.</p><div class="evidence">Evidence to add: wiring photo, code and serial output. <a href="#source-code">Browse code ↗</a></div></article>
+    <article class="challenge" id="challenge-1b"><div class="challenge-head"><span class="stepnum">Challenge 1B</span><span class="pending">Document as you go</span></div><h3>Photoresistors</h3><p>Seven light sensors in voltage-divider circuits. Compare black and white surfaces, sensor distance, and the influence of shadows and ambient light.</p><div class="evidence">Evidence to add: sensor board photo, serial measurements and code. <a href="#source-code">Browse code ↗</a></div></article>
+    <article class="challenge" id="challenge-1c"><div class="challenge-head"><span class="stepnum">Challenge 1C</span><span class="pending">Space reserved</span></div><h3>Motor driver & ESP32</h3><p>Wire two DC motors to the L298N and test motion in forward and reverse directions. Explain motor direction, PWM speed control and power connections.</p><div class="evidence">Evidence to add: wiring diagram, motor driver code, short demonstration.</div></article>
+    <article class="challenge" id="challenge-1d"><div class="challenge-head"><span class="stepnum">Challenge 1D</span><span class="pending">Space reserved</span></div><h3>CAD the chassis</h3><p>Design or improve the chassis in Onshape. Show 3D-printed modifications such as sensor mounts, ESP32 holders and a possible light shield.</p><div class="evidence">Evidence to add: CAD screenshots, design rationale, before/after photos.</div></article>
+    <article class="challenge" id="challenge-2"><div class="challenge-head"><span class="stepnum">Challenge 2</span><span class="pending">Space reserved</span></div><h3>System integration</h3><p>Bring the sensors, microcontroller, motor driver and chassis together. Check each subsystem before attempting the full line-following behavior.</p><div class="evidence">Evidence to add: assembly photos, troubleshooting notes and tests.</div></article>
+    <article class="challenge" id="challenge-3a"><div class="challenge-head"><span class="stepnum">Challenge 3A</span><span class="pending">Space reserved</span></div><h3>Calibration</h3><p>Calibrate sensor response to white and black surfaces, and document sensor alignment, lighting conditions and indicator LED behavior.</p><div class="evidence">Evidence to add: calibration readings, photos, control-code excerpt.</div></article>
+    <article class="challenge" id="challenge-3b"><div class="challenge-head"><span class="stepnum">Challenge 3B</span><span class="pending">Space reserved</span></div><h3>PID control</h3><p>Use the line-position error and the P, I and D terms to adjust the difference between motor speeds. Record chosen gains and the tuning process.</p><div class="evidence">Evidence to add: tested gains, experiments and explanation. <a href="#pid">Go to PID section ↗</a></div></article>
+    <article class="challenge" id="challenge-4"><div class="challenge-head"><span class="stepnum">Challenge 4</span><span class="pending">Future competition</span></div><h3>Competition day</h3><p>Run the robot on Drag Race, Frequency Sweep and Loop tracks. Capture results, at least one competition video, and the full-team photograph.</p><div class="evidence">Evidence to add: official times, distance, loops, rankings, team photo and reflection.</div></article>
+  </div></section>
 
-    <section class="wrap" id="code">
-      <div class="eyebrow">Repository</div>
-      <h2>Source code</h2>
-      <p class="section-desc">Browse the team's code on GitHub. New files placed in the <code>ece5-github-site/code</code> folder are listed here automatically.</p>
-      <div id="code-grid" class="code-grid" aria-live="polite">
-        <!-- These two real links also work if the automatic file list cannot load. -->
-        <article class="card code-card">
-          <span class="filetag">.ino</span><h3>Photoresistor Reading</h3>
-          <p>Read values from the ESP32's light sensors.</p>
-          <div class="filename">ESP32Photoresistor_Code.ino</div>
-          <a class="link" href="https://github.com/xiaoming12gh/Twenty2/blob/main/ece5-github-site/code/ESP32Photoresistor_Code.ino" target="_blank" rel="noopener noreferrer">View on GitHub ↗</a>
-        </article>
-        <article class="card code-card">
-          <span class="filetag">.ino</span><h3>Potentiometer Control</h3>
-          <p>Read the four potentiometer inputs.</p>
-          <div class="filename">ESP32Potentiometer_Code.ino</div>
-          <a class="link" href="https://github.com/xiaoming12gh/Twenty2/blob/main/ece5-github-site/code/ESP32Potentiometer_Code.ino" target="_blank" rel="noopener noreferrer">View on GitHub ↗</a>
-        </article>
-      </div>
-      <p class="note" id="code-status">Currently showing the two source files confirmed in the repository screenshot. New files will be picked up automatically when available.</p>
-    </section>
+  <section id="gallery" class="section wrap"><div class="eyebrow">Visual documentation</div><h2>Project photo gallery</h2><p class="desc">Any supported image added to <code>ece5-github-site/images/</code> will be listed automatically when the GitHub public file listing is available. No need to rename ordinary gallery photos.</p><div id="gallery-grid" class="gallery-grid" aria-live="polite"></div><div id="gallery-status" class="empty" role="status"><span class="em-symbol">▧</span>Loading repository images…</div><p class="gallery-help">Photos open as full files in GitHub. <a class="inline-link" href="https://github.com/xiaoming12gh/Twenty2/tree/main/ece5-github-site/images" target="_blank" rel="noopener">Open the images folder ↗</a></p></section>
 
-    <section class="wrap" id="team">
-      <div class="eyebrow">People Behind the Project</div>
-      <h2>Our Team — Twenty2</h2>
-      <p class="section-desc">Four UC San Diego ECE 5 teammates collaborating on our robot project.</p>
-      <div class="team-grid">
-        <article class="card person"><span class="avatar" aria-hidden="true">ZL</span><h3>Ziming Lin</h3></article>
-        <article class="card person"><span class="avatar" aria-hidden="true">GC</span><h3>Grace Chen</h3></article>
-        <article class="card person"><span class="avatar" aria-hidden="true">KL</span><h3>Kiki Liu</h3></article>
-        <article class="card person"><span class="avatar" aria-hidden="true">KH</span><h3>Kevin Hsieh</h3></article>
-      </div>
-      <p class="note">A robot demonstration video will be added when it's ready.</p>
-    </section>
-  </main>
+  <section id="pid" class="section wrap"><div class="eyebrow">Challenge 3B / Controller</div><h2>How PID controls our line follower</h2><p class="desc">A PID controller uses the difference between the measured line position and its target position to compute a steering correction. The left and right motor speeds are then adjusted to bring the robot back toward the line.</p><div class="formula">error = measured line position − desired line position<br>turn rate = kP × error + kI × cumulative error + kD × change in error</div><div class="pid-grid"><div class="card"><div class="pid-letter">P</div><h3>Proportional</h3><p>Responds to the robot's <strong>current</strong> distance from the desired line position.</p></div><div class="card"><div class="pid-letter">I</div><h3>Integral</h3><p>Accounts for <strong>accumulated</strong> error to address small persistent offsets.</p></div><div class="card"><div class="pid-letter">D</div><h3>Derivative</h3><p>Responds to <strong>changes</strong> in error, helping moderate sudden turns and overshoot.</p></div></div><h3 style="margin-top:30px">Our tested speed and PID settings</h3><p class="tiny">Fill in real values after track testing. “TBD” intentionally means the team has not supplied a measured value yet.</p><div class="data-table"><table><thead><tr><th>Track</th><th>Speed</th><th>kP</th><th>kI</th><th>kD</th><th>Why this setting?</th></tr></thead><tbody id="pid-table"><tr><td>Drag Race</td><td colspan="5" class="tbd">Awaiting the team's test data</td></tr><tr><td>Freq Sweep</td><td colspan="5" class="tbd">Awaiting the team's test data</td></tr><tr><td>Loop</td><td colspan="5" class="tbd">Awaiting the team's test data</td></tr></tbody></table></div><div class="callout" style="margin-top:17px"><strong>Explain the tuning decisions</strong><p>Compare trade-offs among straight-line speed, sharp turns, sensor reliability and overshoot. Record which adjustments improved each track and which settings did not work.</p></div></section>
 
-  <footer>
-    <div class="wrap footer-flex">
-      <span>© Twenty2 · UC San Diego ECE 5</span>
-      <a href="https://github.com/xiaoming12gh/Twenty2" target="_blank" rel="noopener noreferrer">GitHub Repository ↗</a>
-    </div>
-  </footer>
+  <section id="final-robot" class="section wrap"><div class="eyebrow">Professor-required evidence</div><h2>Final robot · annotated features</h2><p class="desc">Upload an <strong>updated competition-robot photo</strong> with readable labels and arrows pointing to its main features — for example sensors, ESP32, motor driver, motors, power supply and chassis.</p><div id="final-feature" class="featured"><div class="empty"><span class="em-symbol">↗</span><strong>Final annotated robot photograph</strong><p>Later upload <code>final-robot-annotated.jpg</code> or <code>final-robot-annotated.png</code> to the <code>images</code> folder.</p></div></div></section>
 
-  <script>
-    // Public repository information. No token or GitHub login is needed.
-    const OWNER = 'xiaoming12gh';
-    const REPO = 'Twenty2';
-    const FOLDER = 'ece5-github-site';
-    const API_BASE = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FOLDER}`;
-    const GITHUB_BASE = `https://github.com/${OWNER}/${REPO}/tree/main/${FOLDER}`;
+  <section id="source-code" class="section wrap"><div class="eyebrow">Programming archive</div><h2>Source code & modifications</h2><p class="desc">Arduino sketches, C/C++, MATLAB and other uploaded code files are listed from <code>ece5-github-site/code/</code>. This includes space for optional changes to the supplied line-following program.</p><div id="code-list" class="file-list" aria-live="polite"><div class="file"><span class="ext">.ino</span><strong>ESP32Photoresistor_Code.ino</strong><small>Photoresistor code</small><a href="https://github.com/xiaoming12gh/Twenty2/blob/main/ece5-github-site/code/ESP32Photoresistor_Code.ino" target="_blank" rel="noopener">View code ↗</a></div><div class="file"><span class="ext">.ino</span><strong>ESP32Potentiometer_Code.ino</strong><small>Potentiometer code</small><a href="https://github.com/xiaoming12gh/Twenty2/blob/main/ece5-github-site/code/ESP32Potentiometer_Code.ino" target="_blank" rel="noopener">View code ↗</a></div></div><p class="tiny" id="code-status">Showing two previously confirmed source-file links. Checking GitHub for additional files…</p></section>
 
-    async function listFolder(folder) {
-      const response = await fetch(`${API_BASE}/${folder}?ref=main`, {
-        headers: { 'Accept': 'application/vnd.github+json' }
-      });
-      if (!response.ok) throw new Error('GitHub file list could not be loaded');
-      const data = await response.json();
-      if (!Array.isArray(data)) throw new Error('Folder contents were not returned');
-      return data.filter(item => item.type === 'file');
-    }
+  <section id="competition" class="section wrap"><div class="eyebrow">Challenge 4 / The final event</div><h2>Competition results & recordings</h2><p class="desc">Professor-required results for all three tracks. Add the official results only after the competition; the current blanks are intentional.</p><div class="data-table"><table><thead><tr><th>Track</th><th>Distance</th><th>Time</th><th>Number of loops</th><th>Rank</th></tr></thead><tbody id="score-table"><tr><td>Drag Race</td><td>—</td><td class="tbd">TBD</td><td>—</td><td class="tbd">TBD</td></tr><tr><td>Freq Sweep</td><td class="tbd">TBD</td><td class="tbd">TBD</td><td>—</td><td class="tbd">TBD</td></tr><tr><td>Loop</td><td>—</td><td>—</td><td class="tbd">TBD</td><td class="tbd">TBD</td></tr></tbody></table></div><p class="table-caption">The event-specific metrics follow the professor's requirement: Drag Race = time + rank; Freq Sweep = distance + time + rank; Loop = number of loops + rank.</p><div style="height:30px"></div><h3>Competition videos</h3><p class="desc">At least one video must show the robot actually competing on a track on competition day. Small MP4/WebM clips can go in the <code>videos</code> folder; for longer videos, use an embedded video link.</p><div id="video-list" class="video-list"></div><div id="video-status" class="empty"><span class="em-symbol">▷</span><strong>Competition video coming later</strong><p>Upload a video to <code>ece5-github-site/videos/</code> after the event.</p></div><div style="height:30px"></div><h3>Team photo · competition day</h3><div id="teamphoto-feature" class="featured"><div class="empty"><span class="em-symbol">▧</span><strong>All four team members in one photo</strong><p>Upload <code>team-photo.jpg</code> or <code>team-photo.png</code> after competition day.</p></div></div></section>
 
-    function makeElement(tag, className, content) {
-      const node = document.createElement(tag);
-      if (className) node.className = className;
-      if (content !== undefined) node.textContent = content;
-      return node;
-    }
+  <section id="deliverables" class="section wrap"><div class="eyebrow">Final deliverables</div><h2>Poster & project presentation</h2><p class="desc">Dedicated upload areas for the poster submitted in early Week 10 and your group's PowerPoint presentation. Files uploaded to <code>ece5-github-site/docs/</code> will appear below.</p><div class="media-grid"><article class="card"><div class="card-title"><span class="circle">P</span><h3>Competition poster</h3></div><p>Use the final poster from the Week 10 submission. Recommended filename: <code>poster.pdf</code> (or <code>poster.png</code>).</p><div id="poster-content" class="empty" style="margin-top:15px"><span class="em-symbol">▤</span><strong>Poster reserved</strong><p>Upload poster PDF to <code>docs</code> or poster PNG to <code>images</code>.</p></div></article><article class="card"><div class="card-title"><span class="circle">S</span><h3>PowerPoint / Slides</h3></div><p>Upload the presentation as <code>presentation.pptx</code>. You can also export <code>presentation.pdf</code> for a browser-friendly preview.</p><div id="slides-content" class="empty" style="margin-top:15px"><span class="em-symbol">▤</span><strong>Presentation reserved</strong><p>Upload PowerPoint or PDF to <code>docs</code>.</p></div></article></div><div id="docs-other" class="file-list" style="margin-top:17px"></div></section>
 
-    async function loadGallery() {
-      const grid = document.getElementById('gallery-grid');
-      const status = document.getElementById('gallery-status');
-      try {
-        const files = (await listFolder('images'))
-          .filter(item => /\.(png|jpe?g|gif|webp|avif)$/i.test(item.name));
-        if (files.length === 0) {
-          status.textContent = 'No image files found yet. Upload JPG, PNG, or WebP images to ece5-github-site/images.';
-          return;
-        }
-        for (const file of files) {
-          const figure = makeElement('figure', 'card image-card');
-          figure.style.margin = '0';
-          const image = makeElement('img');
-          image.src = file.download_url;
-          image.alt = `Twenty2 project image: ${file.name}`;
-          image.loading = 'lazy';
-          image.addEventListener('error', () => {
-            image.style.display = 'none';
-            const msg = makeElement('p', 'note', 'This image could not be displayed. Check its file format.');
-            figure.appendChild(msg);
-          });
-          const caption = makeElement('figcaption', 'image-body');
-          caption.appendChild(makeElement('h3', '', file.name));
-          const link = makeElement('a', 'link', 'Open image on GitHub ↗');
-          link.href = file.html_url;
-          link.target = '_blank';
-          link.rel = 'noopener noreferrer';
-          caption.appendChild(link);
-          figure.appendChild(image);
-          figure.appendChild(caption);
-          grid.appendChild(figure);
-        }
-        status.hidden = true;
-      } catch (_) {
-        status.textContent = 'Photos could not be loaded automatically. You can still see them in the GitHub images folder: ';
-        const link = makeElement('a', 'link', 'Open images folder ↗');
-        link.href = `${GITHUB_BASE}/images`;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        status.appendChild(link);
-      }
-    }
+  <section id="reflection" class="section wrap"><div class="eyebrow">Last-week reflection / 4–6 sentences</div><h2>Improvements & what we would change</h2><p class="desc">Reserve this short reflection for the final week. The professor specifically requests <strong>4–6 sentences</strong> describing improvements actually made and improvements you wish you had made with more time.</p><div class="card"><ol class="reflection" id="reflection-list"><li>Describe a concrete improvement made during the last week.</li><li>Explain how that change affected performance or reliability.</li><li>Describe another last-week adjustment or test.</li><li>Explain a limitation you still faced during competition.</li><li>State one improvement you would make with more time and why.</li></ol><p class="tiny" style="margin-bottom:0">These are writing prompts, <strong>not</strong> claims about the team's completed work. Replace them with your own final 4–6 sentences.</p></div></section>
 
-    function codeTitle(name) {
-      if (/photoresistor|ldr/i.test(name)) return 'Photoresistor Reading';
-      if (/potentiometer/i.test(name)) return 'Potentiometer Control';
-      return name.replace(/\.[^.]+$/, '').replace(/[_-]/g, ' ');
-    }
+  <section id="team" class="section wrap"><div class="eyebrow">Team Twenty2</div><h2>Four people. One robot.</h2><p class="desc">UC San Diego ECE 5 project team. <span id="team-number-label">Team number: to be confirmed.</span></p><div class="people"><div class="card team-person"><span class="monogram">ZL</span><h3>Ziming Lin</h3></div><div class="card team-person"><span class="monogram">GC</span><h3>Grace Chen</h3></div><div class="card team-person"><span class="monogram">KL</span><h3>Kiki Liu</h3></div><div class="card team-person"><span class="monogram">KH</span><h3>Kevin Hsieh</h3></div></div></section>
 
-    async function loadCode() {
-      const grid = document.getElementById('code-grid');
-      const status = document.getElementById('code-status');
-      try {
-        const files = (await listFolder('code'))
-          .filter(item => /\.(ino|cpp|h|hpp|c|py|m)$/i.test(item.name));
-        if (files.length === 0) { status.textContent = 'No source code files found yet.'; return; }
-        const fragment = document.createDocumentFragment();
-        for (const file of files) {
-          const card = makeElement('article', 'card code-card');
-          card.appendChild(makeElement('span', 'filetag', file.name.slice(file.name.lastIndexOf('.'))));
-          card.appendChild(makeElement('h3', '', codeTitle(file.name)));
-          card.appendChild(makeElement('div', 'filename', file.name));
-          const a = makeElement('a', 'link', 'View code on GitHub ↗');
-          a.href = file.html_url;
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-          card.appendChild(a);
-          fragment.appendChild(card);
-        }
-        grid.replaceChildren(fragment);
-        status.textContent = `Showing ${files.length} source code file${files.length === 1 ? '' : 's'} from our GitHub repository.`;
-      } catch (_) {
-        status.textContent = 'Automatic code listing is temporarily unavailable; the two direct code links above still work.';
-      }
-    }
-
-    loadGallery();
-    loadCode();
-  </script>
+  <section id="checklist" class="section wrap"><div class="eyebrow">Before final submission</div><h2>Website submission checklist</h2><p class="desc">The sections are already here. Before you submit the link, replace all relevant “TBD” entries with the team's actual work and check each item.</p><div class="checklist"><div class="checkitem"><span>□</span> Team number/name and all member names</div><div class="checkitem"><span>□</span> Robot prototyping parts and assembly from Challenges 1–2</div><div class="checkitem"><span>□</span> Updated final robot photos annotated with arrows + words</div><div class="checkitem"><span>□</span> PID explanation; chosen gains and tuning decisions per track</div><div class="checkitem"><span>□</span> Optional source-code modifications</div><div class="checkitem"><span>□</span> Week 10 poster</div><div class="checkitem"><span>□</span> Three tracks: all required scores and rankings</div><div class="checkitem"><span>□</span> At least one actual competition-day video</div><div class="checkitem"><span>□</span> Team picture including all four members</div><div class="checkitem"><span>□</span> 4–6 final reflection sentences</div><div class="checkitem"><span>□</span> Public website link opens in an incognito browser</div><div class="checkitem"><span>□</span> Optional group PPT uploaded and working</div></div></section>
+</main>
+<footer><div class="wrap foot"><span>Twenty2 · UC San Diego · ECE 5 · Fall 2026</span><span><a class="inline-link" href="https://github.com/xiaoming12gh/Twenty2" target="_blank" rel="noopener">GitHub repository ↗</a> · <a class="inline-link" href="#top">Back to top ↑</a></span></div></footer>
+<script>
+  // ===== EDIT ONLY THIS BLOCK WHEN YOUR TEAM HAS REAL RESULTS =====
+  const PROJECT = {
+    githubOwner: 'xiaoming12gh', githubRepo: 'Twenty2', branch: 'main',
+    teamNumber: null, // Enter the official team number here once confirmed.
+    assetFolder: 'ece5-github-site',
+    // Fill each field after competition. Keep null until the result is confirmed.
+    scores: {
+      drag: { time: null, rank: null },
+      sweep: { distance: null, time: null, rank: null },
+      loop: { loops: null, rank: null }
+    },
+    pid: {
+      drag: { speed: null, kp: null, ki: null, kd: null, reason: null },
+      sweep: { speed: null, kp: null, ki: null, kd: null, reason: null },
+      loop: { speed: null, kp: null, ki: null, kd: null, reason: null }
+    },
+    // Optional: put your own 4–6 complete sentences here in an array.
+    reflectionSentences: [],
+    // Optional: use the full https://www.youtube.com/embed/VIDEO_ID URL.
+    youtubeEmbedUrl: ''
+  };
+  // ===== You do NOT need to edit below to add regular photos/code =====
+  const githubRoot = `https://github.com/${PROJECT.githubOwner}/${PROJECT.githubRepo}`;
+  const apiBase = `https://api.github.com/repos/${PROJECT.githubOwner}/${PROJECT.githubRepo}/contents/${PROJECT.assetFolder}`;
+  const filePageBase = `${githubRoot}/blob/${PROJECT.branch}/${PROJECT.assetFolder}`;
+  const browseBase = `${githubRoot}/tree/${PROJECT.branch}/${PROJECT.assetFolder}`;
+  const get = id => document.getElementById(id);
+  const textEl = (tag, css, value) => {const el=document.createElement(tag);if(css)el.className=css;if(value!==undefined)el.textContent=value;return el;};
+  const linkEl = (text, href) => {const a=textEl('a','inline-link',text);a.href=href;a.target='_blank';a.rel='noopener noreferrer';return a;};
+  const fullPath = (group, filename) => `${PROJECT.assetFolder}/${group}/${filename.split('/').map(encodeURIComponent).join('/')}`;
+  const publicUrl = (group, filename) => `https://${PROJECT.githubOwner}.github.io/${PROJECT.githubRepo}/${fullPath(group,filename)}`;
+  const fileUrl = file => file.download_url || publicUrl(file._group,file.name);
+  const labelName = name => name.replace(/\.[^.]+$/,'').replace(/[_-]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+  const isImage = name => /\.(png|jpe?g|webp|gif|avif)$/i.test(name);
+  async function listFiles(group) {
+    const resp=await fetch(`${apiBase}/${group}?ref=${PROJECT.branch}`,{headers:{Accept:'application/vnd.github+json'}});
+    if(resp.status===404)return []; // Folder may not exist yet.
+    if(!resp.ok)throw Error(`Cannot read ${group}: ${resp.status}`);
+    const files=await resp.json();
+    if(!Array.isArray(files))throw Error('Unexpected repository response');
+    return files.filter(f=>f.type==='file').map(f=>({...f,_group:group}));
+  }
+  function appendPhoto(container, file, caption, description='') {
+    container.replaceChildren();
+    const fig=textEl('figure','photo');const img=document.createElement('img');img.src=fileUrl(file);img.loading='lazy';img.alt=`Twenty2 — ${caption}`;
+    img.addEventListener('error',()=>{img.remove();fig.prepend(textEl('p','tiny','Image failed to display. Check the file encoding or GitHub URL.'));});
+    const cap=textEl('figcaption');cap.append(textEl('b','',caption));if(description)cap.append(textEl('small','',description));
+    const a=linkEl('View original ↗',file.html_url||`${filePageBase}/${file._group}/${encodeURIComponent(file.name)}`);cap.append(document.createElement('br'),a);
+    fig.append(img,cap);container.append(fig);
+  }
+  function featuredFind(files,regexes){return files.find(file=>regexes.some(re=>re.test(file.name)));}
+  async function showImages() {
+    const grid=get('gallery-grid'),status=get('gallery-status');
+    try{
+      const files=(await listFiles('images')).filter(f=>isImage(f.name));
+      if(!files.length){status.innerHTML='';status.append(textEl('strong','', 'No uploaded images found yet.'));status.append(textEl('p','', 'Add JPG/PNG/WebP files to ece5-github-site/images/ and they will appear here.'));return files;}
+      grid.replaceChildren();
+      for(const file of files){const slot=document.createElement('div');appendPhoto(slot,file,labelName(file.name));grid.append(slot);}
+      status.hidden=true;
+      const assembly=featuredFind(files,[/assembly/i,/prototype.*build/i]);
+      const finalPhoto=featuredFind(files,[/final.*robot.*annotat/i,/robot.*annotat/i]);
+      const teamPhoto=featuredFind(files,[/team[-_ ]?photo/i,/group[-_ ]?photo/i,/team[-_ ]?picture/i]);
+      if(assembly)appendPhoto(get('assembly-feature'),assembly,'Prototype / assembly photograph');
+      if(finalPhoto)appendPhoto(get('final-feature'),finalPhoto,'Annotated final robot','Ensure arrows and labels are clearly visible in the original image.');
+      if(teamPhoto)appendPhoto(get('teamphoto-feature'),teamPhoto,'Twenty2 on competition day','All four team members.');
+      return files;
+    }catch(err){status.replaceChildren(textEl('strong','', 'The gallery could not retrieve the GitHub image list.'),textEl('p','', 'This can happen when offline or the public API is temporarily limited. The uploaded images remain in the repository.'));status.append(linkEl('Open images in GitHub ↗',`${browseBase}/images`));return [];}
+  }
+  async function showCode(){const grid=get('code-list'),status=get('code-status');try{const files=(await listFiles('code')).filter(f=>/\.(ino|c|cpp|h|hpp|py|m|js|ts)$/i.test(f.name));if(!files.length){status.textContent='No code files found in the folder yet.';return;}grid.replaceChildren();for(const file of files){const card=textEl('article','file');const ext=file.name.slice(file.name.lastIndexOf('.'));card.append(textEl('span','ext',ext),textEl('strong','',file.name),textEl('small','',/potentiometer/i.test(file.name)?'Speed / PID control input':/photoresistor|ldr/i.test(file.name)?'Light sensor input':'Additional source or modification'),linkEl('View on GitHub ↗',file.html_url||`${filePageBase}/code/${encodeURIComponent(file.name)}`));grid.append(card);}status.textContent=`${files.length} code file(s) listed from GitHub. New uploads appear automatically.`;}catch(err){status.replaceChildren(textEl('span','', 'Automatic code listing is unavailable. The two existing links above should still work. '),linkEl('Open code folder ↗',`${browseBase}/code`));}}
+  function attachPreview(node,file,title){node.replaceChildren();const url=/\.pdf$/i.test(file.name)?publicUrl(file._group,file.name):fileUrl(file);if(isImage(file.name)){const im=document.createElement('img');im.src=url;im.alt=title;im.loading='lazy';im.style.cssText='display:block;width:100%;max-height:450px;object-fit:contain;border-radius:10px;margin:12px 0;background:#081629';node.append(im);}else if(/\.pdf$/i.test(file.name)){const frame=document.createElement('iframe');frame.className='doc-viewer';frame.title=title;frame.loading='lazy';frame.src=url;node.append(frame);}node.append(linkEl(`Open ${file.name} ↗`,file.html_url||url));}
+  async function showDocs(images){try{const docs=await listFiles('docs');const poster=docs.find(f=>/poster/i.test(f.name)&&/\.(pdf|png|jpe?g)$/i.test(f.name))||images.find(f=>/poster/i.test(f.name)&&isImage(f.name));if(poster)attachPreview(get('poster-content'),poster,'Twenty2 competition poster');const slides=docs.filter(f=>/(presentation|slides|powerpoint|ppt)/i.test(f.name)&&/\.(pdf|pptx?|key)$/i.test(f.name));if(slides.length){const dest=get('slides-content');dest.replaceChildren();const pdf=slides.find(f=>/\.pdf$/i.test(f.name));if(pdf)attachPreview(dest,pdf,'Twenty2 presentation preview');for(const file of slides){if(pdf&&file.name===pdf.name)continue;const p=textEl('p','tiny');p.append(linkEl(`Open / download ${file.name} ↗`,file.html_url||fileUrl(file)));dest.append(p);}}const others=docs.filter(f=>f!==poster&&!slides.some(sl=>sl.name===f.name)&&!f.name.startsWith('ADD_'));const misc=get('docs-other');for(const file of others){const card=textEl('div','file');card.append(textEl('strong','',file.name),linkEl('Open document ↗',file.html_url||fileUrl(file)));misc.append(card);}}catch(err){get('slides-content').append(textEl('p','tiny','Document listing is temporarily unavailable. You can browse docs directly in GitHub.'));}}
+  async function showVideos(){const list=get('video-list'),status=get('video-status');let count=0;try{const files=(await listFiles('videos')).filter(f=>/\.(mp4|webm|ogv)$/i.test(f.name));for(const f of files){const item=textEl('div','card video-item');item.append(textEl('h3','',labelName(f.name)));const video=document.createElement('video');video.controls=true;video.preload='metadata';const source=document.createElement('source');source.src=publicUrl('videos',f.name);source.type=/\.webm$/i.test(f.name)?'video/webm':/\.ogv$/i.test(f.name)?'video/ogg':'video/mp4';video.append(source);item.append(video,linkEl('Open video file ↗',f.html_url||fileUrl(f)));list.append(item);count++;}}catch(err){status.append(textEl('p','tiny','The video file list could not be read automatically.'));}
+    if(/^https:\/\/www\.youtube\.com\/embed\/[A-Za-z0-9_-]+/.test(PROJECT.youtubeEmbedUrl)){const item=textEl('div','card video-item');item.append(textEl('h3','','Competition video (YouTube)'));const frame=document.createElement('iframe');frame.title='Twenty2 competition video';frame.src=PROJECT.youtubeEmbedUrl;frame.style.cssText='width:100%;aspect-ratio:16/9;border:0;border-radius:10px';frame.loading='lazy';frame.allow='accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share';frame.allowFullscreen=true;item.append(frame);list.append(item);count++;}
+    if(count)status.hidden=true;
+  }
+  const valueCell=(tr,value)=>{const td=textEl('td',value===null||value===''?'tbd':'',value===null||value===''?'TBD':String(value));tr.append(td);};
+  function dataRows(){const score=get('score-table');score.replaceChildren();const trackSpecs=[['Drag Race','drag'],['Freq Sweep','sweep'],['Loop','loop']];for(const [name,key] of trackSpecs){const tr=document.createElement('tr');tr.append(textEl('td','',name));const x=PROJECT.scores[key];for(const field of ['distance','time','loops','rank']){if((key==='drag'&&(field==='distance'||field==='loops'))||(key==='sweep'&&field==='loops')||(key==='loop'&&(field==='distance'||field==='time')))tr.append(textEl('td','','—'));else valueCell(tr,x[field]??null);}score.append(tr);}const pid=get('pid-table');pid.replaceChildren();for(const [name,key] of trackSpecs){const tr=document.createElement('tr');tr.append(textEl('td','',name));const x=PROJECT.pid[key];for(const field of ['speed','kp','ki','kd','reason'])valueCell(tr,x[field]??null);pid.append(tr);}if(PROJECT.reflectionSentences.length>=4&&PROJECT.reflectionSentences.length<=6){const list=get('reflection-list');list.replaceChildren();for(const sentence of PROJECT.reflectionSentences){list.append(textEl('li','',sentence));}}}
+  if(PROJECT.teamNumber !== null && PROJECT.teamNumber !== '')get('team-number-label').textContent=`Team number: ${PROJECT.teamNumber}.`;
+  dataRows();showImages().then(showDocs);showCode();showVideos();
+</script>
 </body>
 </html>
-
