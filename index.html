@@ -55,150 +55,181 @@
     <p>UC San Diego | ECE 5 Lab 4: Robotics &amp; Control | Fall 2026</p>
   </header>
   <nav>
-    <a href="#about">About</a>
-    <a href="#challenges">Challenges</a>
-    <a href="#photos">Photos</a>
-    <a href="#pid">PID</a>
-    <a href="#competition">Competition</a>
-    <a href="#files">Files</a>
     <a href="#team">Team</a>
+    <a href="#building">Building</a>
+    <a href="#final-robot-section">Final Robot</a>
+    <a href="#pid">PID</a>
+    <a href="#poster-section">Poster</a>
+    <a href="#competition">Scores</a>
+    <a href="#competition-videos">Videos</a>
+    <a href="#team-picture">Team Photo</a>
+    <a href="#reflection-section">Reflection</a>
+    <a href="#challenges">Extra Materials</a>
   </nav>
 
   <main>
-    <section id="about">
-      <h2>About Our Project</h2>
-      <p>We are Team Twenty2. For ECE 5 Lab 4, we are building a line-following robot using an ESP32, photoresistors, DC motors, and PID control. This website documents our work as we finish each challenge.</p>
-      <p><b>Team Number:</b> <span id="team-number">#22</span> &nbsp; | &nbsp; <b>Project:</b> Line Following Robot</p>
-      <p class="note">This website is still a work in progress. We will add more photos, presentations, testing results, and competition videos as we complete the project.</p>
-    </section>
-
-    <section id="challenges">
-      <h2>Challenges and Presentations</h2>
-      <p>We will upload one PowerPoint for each main challenge. The PPT files will appear below after we upload them to GitHub.</p>
-      <div class="block">
-        <h3>Challenge 1 - Building the Parts</h3>
-        <ul>
-          <li>1A: Potentiometers for Speed, P, I, and D</li>
-          <li>1B: Photoresistor sensors</li>
-          <li>1C: Motor driver and ESP32</li>
-          <li>1D: CAD chassis design</li>
-        </ul>
-        <p><b>Challenge 1 PPT:</b></p>
-        <div id="ppt-1"><a href="https://github.com/xiaoming12gh/Twenty2/blob/main/ece5-github-site/docs/Team%20-%20Our%20ECE%205%20Lab%204%20Write%20Up%20Challenge%201A%20-%201C%20and%201D%20CAD%20Only.pptx" target="_blank" rel="noopener">View our Challenge 1 presentation</a></div>
-      </div>
-      <div class="block">
-        <h3>Challenge 2 - Robot Assembly</h3>
-        <p>Connecting the sensors, motors, ESP32, and chassis. We will document prototyping parts, assembly, and hardware testing here.</p>
-        <p><b>Challenge 2 PPT:</b></p><div id="ppt-2" class="placeholder">Not uploaded yet.</div>
-      </div>
-      <div class="block">
-        <h3>Challenge 3 - Line Following</h3>
-        <p>3A: Calibrating the photoresistors. 3B: Adjusting PID control so the robot can follow a line.</p>
-        <p><b>Challenge 3 PPT:</b></p><div id="ppt-3" class="placeholder">Not uploaded yet.</div>
-      </div>
-      <div class="block">
-        <h3>Challenge 4 - Competition</h3>
-        <p>Testing our robot on the Drag Race, Frequency Sweep, and Loop tracks. We will add our results and videos later.</p>
-        <p><b>Challenge 4 PPT:</b></p><div id="ppt-4" class="placeholder">Not uploaded yet.</div>
-      </div>
-      <p class="small">PPT files: <a href="https://github.com/xiaoming12gh/Twenty2/tree/main/ece5-github-site/docs" target="_blank" rel="noopener">Browse presentations on GitHub</a>. PDF versions can also be added for easy viewing.</p>
-    </section>
-
-    <section id="photos">
-      <h2>Robot Building and Photos</h2>
-      <p>Photos of our prototype circuits, parts, wiring, CAD design, and assembly. New pictures uploaded to our <code>images</code> folder will be added here automatically when the file list loads.</p>
-      <div id="gallery" class="two">
-        <figure class="photo">
-          <img src="ece5-github-site/images/Potentiometer.jpg" alt="Potentiometer circuit" loading="lazy">
-          <figcaption>Potentiometer circuit</figcaption>
-        </figure>
-        <figure class="photo">
-          <img src="ece5-github-site/images/Photoresistor.jpg" alt="Photoresistor circuit" loading="lazy">
-          <figcaption>Photoresistor circuit</figcaption>
-        </figure>
-      </div>
-      <h3>Final Competition Robot</h3>
-      <p>We will upload updated photos of our final robot with arrows and labels explaining its features.</p>
-      <div id="final-robot" class="placeholder">Final annotated robot photo: to be added.</div>
-      <h3>Team Picture</h3>
-      <p>We will include a picture with all four team members from competition day.</p>
-      <div id="team-photo" class="placeholder">Competition-day team picture: to be added.</div>
-    </section>
-
-    <section id="pid">
-      <h2>PID Control</h2>
-      <p><b>P (Proportional):</b> corrects the robot based on its current error from the line. <b>I (Integral):</b> accounts for accumulated error. <b>D (Derivative):</b> responds to how quickly the error is changing.</p>
-      <p>We will record the actual Speed, P, I, and D settings we choose for each competition track and explain why we changed them.</p>
-      <div class="scroll"><table>
-        <thead><tr><th>Track</th><th>Speed</th><th>P</th><th>I</th><th>D</th><th>Why we chose these values</th></tr></thead>
-        <tbody id="pid-values">
-          <tr><td>Drag Race</td><td colspan="5">Not tested yet</td></tr>
-          <tr><td>Freq Sweep</td><td colspan="5">Not tested yet</td></tr>
-          <tr><td>Loop</td><td colspan="5">Not tested yet</td></tr>
-        </tbody>
-      </table></div>
-      <h3>Code Modifications (Optional)</h3>
-      <p id="modification-text" class="muted">If we modify the provided code, we will describe the changes here.</p>
-    </section>
-
-    <section id="competition">
-      <h2>Competition Results</h2>
-      <p>We will fill in the real numbers and rankings after competition day.</p>
-      <div class="scroll"><table>
-        <thead><tr><th>Track</th><th>Distance</th><th>Time</th><th>Loops</th><th>Rank</th></tr></thead>
-        <tbody id="competition-results">
-          <tr><td>Drag Race</td><td>—</td><td>TBD</td><td>—</td><td>TBD</td></tr>
-          <tr><td>Freq Sweep</td><td>TBD</td><td>TBD</td><td>—</td><td>TBD</td></tr>
-          <tr><td>Loop</td><td>—</td><td>—</td><td>TBD</td><td>TBD</td></tr>
-        </tbody>
-      </table></div>
-      <h3>Competition Videos</h3>
-      <p>We will upload a video showing our robot competing on at least one track.</p>
-      <div id="videos" class="placeholder">Competition videos: to be added.</div>
-      <h3>Week 10 Poster</h3>
-      <div id="poster" class="placeholder">Our Week 10 poster will be linked here.</div>
-      <h3>Final Reflection</h3>
-      <p>At the end of the project, we will write 4-6 sentences about improvements made during the last week and changes we would make if we had more time.</p>
-      <div id="reflection" class="placeholder">Final reflection: to be written after testing.</div>
-    </section>
-
-    <section id="files">
-      <h2>Source Code and Project Files</h2>
-      <p>The Arduino code is available through GitHub. We will keep adding new files as the project develops.</p>
-      <ul id="code-files" class="file-list">
-        <li><a href="https://github.com/xiaoming12gh/Twenty2/blob/main/ece5-github-site/code/ESP32Potentiometer_Code.ino" target="_blank" rel="noopener">ESP32Potentiometer_Code.ino</a></li>
-        <li><a href="https://github.com/xiaoming12gh/Twenty2/blob/main/ece5-github-site/code/ESP32Photoresistor_Code.ino" target="_blank" rel="noopener">ESP32Photoresistor_Code.ino</a></li>
-      </ul>
-      <p class="small"><a href="https://github.com/xiaoming12gh/Twenty2" target="_blank" rel="noopener">Visit our GitHub repository</a> | <a href="https://github.com/xiaoming12gh/Twenty2/tree/main/ece5-github-site/code" target="_blank" rel="noopener">Browse all source code</a></p>
-    </section>
-
+    <!-- REQUIRED CONTENT: professor's grading checklist -->
     <section id="team">
-      <h2>Our Team</h2>
+      <h2>1. Team Information</h2>
+      <p><b>Team Number:</b> <span id="team-number">#22</span><br>
+         <b>Team Name:</b> Twenty2<br>
+         <b>Course:</b> UCSD ECE 5 - Lab 4 Robotics &amp; Control</p>
+      <p><b>Team Members:</b></p>
       <ul>
         <li>Ziming Lin</li>
         <li>Grace Chen</li>
         <li>Kiki Liu</li>
         <li>Kevin Hsieh</li>
       </ul>
+      <p>We are building a line-following robot with an ESP32, photoresistors, DC motors, and PID control.</p>
+    </section>
+
+    <section id="building">
+      <h2>2. Robot Building - Prototyping Parts and Assembly</h2>
+      <p>This section documents our building process from Challenges 1 and 2.</p>
+      <h3>Prototyping Parts (Challenge 1)</h3>
+      <p>We tested potentiometers, photoresistors, motor controls, and a CAD chassis design before putting the robot together.</p>
+      <div id="gallery" class="two">
+        <figure class="photo">
+          <img src="ece5-github-site/images/Potentiometer.jpg" alt="Potentiometer prototype" loading="lazy">
+          <figcaption>Potentiometer prototype</figcaption>
+        </figure>
+        <figure class="photo">
+          <img src="ece5-github-site/images/Photoresistor.jpg" alt="Photoresistor prototype" loading="lazy">
+          <figcaption>Photoresistor prototype</figcaption>
+        </figure>
+      </div>
+      <h3>Robot Assembly (Challenge 2)</h3>
+      <p>Here we will document how the chassis, sensors, ESP32, motor driver, and motors were assembled and tested.</p>
+      <div id="assembly-photos" class="placeholder">Assembly photos will be added here after the robot is assembled. Upload images with "assembly" or "chassis" in their filenames.</div>
+    </section>
+
+    <section id="final-robot-section">
+      <h2>3. Final Competition Robot</h2>
+      <p>Updated photos of our final competition robot, with <b>arrows and words identifying important features</b> (sensors, ESP32, motor driver, motors, etc.).</p>
+      <div id="final-robot" class="placeholder">Annotated final robot photos: not uploaded yet. Suggested filename: final-robot-annotated.jpg.</div>
+    </section>
+
+    <section id="pid">
+      <h2>4. Explanation of PID Control</h2>
+      <p><b>P (Proportional)</b> corrects the robot based on the current line-position error. <b>I (Integral)</b> uses accumulated past error to help remove persistent offsets. <b>D (Derivative)</b> responds to how quickly the error changes.</p>
+      <p>We use the sensor readings to estimate the position of the line, calculate an error, and use PID to adjust the left and right motor speeds. Our final values and tuning explanation for each track will be recorded below.</p>
+      <h3>PID Values and Reasons</h3>
+      <div class="scroll"><table>
+        <thead><tr><th>Track</th><th>Speed</th><th>P</th><th>I</th><th>D</th><th>Why we chose these values / how we adjusted them</th></tr></thead>
+        <tbody id="pid-values">
+          <tr><td>Drag Race</td><td colspan="5">TBD</td></tr>
+          <tr><td>Freq Sweep</td><td colspan="5">TBD</td></tr>
+          <tr><td>Loop</td><td colspan="5">TBD</td></tr>
+        </tbody>
+      </table></div>
+      <p class="small">We will explain how Speed and PID were tuned differently for the three tracks after testing.</p>
+    </section>
+
+    <section id="modifications">
+      <h2>5. Code Modifications (Optional)</h2>
+      <p id="modification-text" class="muted">If we modify the starter code, we will describe our changes and reasons here. The complete source files are linked near the bottom of this page.</p>
+    </section>
+
+    <section id="poster-section">
+      <h2>6. Week 10 Poster</h2>
+      <p>Our poster submitted in early Week 10.</p>
+      <div id="poster" class="placeholder">Week 10 poster: not uploaded yet. Upload a file containing "poster" in its name to the docs folder.</div>
+    </section>
+
+    <section id="competition">
+      <h2>7. Competition Scores and Rankings</h2>
+      <p>Final results will be entered after competition day. The table includes all measurements requested by the professor.</p>
+      <div class="scroll"><table>
+        <thead><tr><th>Track</th><th>Distance</th><th>Time</th><th>Number of Loops</th><th>Rank</th></tr></thead>
+        <tbody id="competition-results">
+          <tr><td>Drag Race</td><td>—</td><td>TBD</td><td>—</td><td>TBD</td></tr>
+          <tr><td>Freq Sweep</td><td>TBD</td><td>TBD</td><td>—</td><td>TBD</td></tr>
+          <tr><td>Loop</td><td>—</td><td>—</td><td>TBD</td><td>TBD</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="competition-videos">
+      <h2>8. Competition Videos</h2>
+      <p>We will include video from competition day showing our robot competing on <b>at least one of the three tracks</b>.</p>
+      <div id="videos" class="placeholder">Competition video: not uploaded yet.</div>
+    </section>
+
+    <section id="team-picture">
+      <h2>9. Team Picture - Competition Day</h2>
+      <p>A photo from competition day that includes <b>all four team members</b>.</p>
+      <div id="team-photo" class="placeholder">Competition-day team photo: not uploaded yet. Suggested filename: team-photo.jpg.</div>
+    </section>
+
+    <section id="reflection-section">
+      <h2>10. Final Reflection (4-6 Sentences)</h2>
+      <p>After competition, we will describe the improvements made during the last week, and improvements we wish we had made if more time were available.</p>
+      <div id="reflection" class="placeholder">Final reflection: to be written by our team (4-6 sentences).</div>
+    </section>
+
+    <section id="accessibility">
+      <h2>11. Website Accessibility</h2>
+      <p>Our public project website: <a href="https://xiaoming12gh.github.io/Twenty2/">https://xiaoming12gh.github.io/Twenty2/</a></p>
+      <p class="small">Before submitting, open this link in an incognito/private window without signing in to GitHub. Check that the website, photos, code links, poster, presentation files, and competition videos are accessible to visitors.</p>
+    </section>
+
+    <!-- EXTRA CONTENT: keep after all required items -->
+    <section id="challenges">
+      <h2>Additional Materials - Challenge 1-4 Presentations</h2>
+      <p>Each challenge has its own presentation. The PPT files appear here after they are uploaded to <code>ece5-github-site/docs/</code>. We can also add matching PDFs for easy viewing.</p>
+      <div class="block">
+        <h3>Challenge 1 - Building the Parts</h3>
+        <p>1A Potentiometers, 1B Photoresistors, 1C Motor Driver, 1D CAD Chassis.</p>
+        <div id="ppt-1"><a href="https://github.com/xiaoming12gh/Twenty2/blob/main/ece5-github-site/docs/Team%20-%20Our%20ECE%205%20Lab%204%20Write%20Up%20Challenge%201A%20-%201C%20and%201D%20CAD%20Only.pptx" target="_blank" rel="noopener">Open Challenge 1 PPT</a></div>
+      </div>
+      <div class="block">
+        <h3>Challenge 2 - Robot Assembly</h3>
+        <p>System integration and hardware testing.</p>
+        <div id="ppt-2" class="placeholder">Challenge 2 PPT: not uploaded yet.</div>
+      </div>
+      <div class="block">
+        <h3>Challenge 3 - Line Following and PID</h3>
+        <p>Sensor calibration and PID controller testing.</p>
+        <div id="ppt-3" class="placeholder">Challenge 3 PPT: not uploaded yet.</div>
+      </div>
+      <div class="block">
+        <h3>Challenge 4 - Competition</h3>
+        <p>Track testing, performance, and final competition.</p>
+        <div id="ppt-4" class="placeholder">Challenge 4 PPT: not uploaded yet.</div>
+      </div>
+      <p class="small"><a href="https://github.com/xiaoming12gh/Twenty2/tree/main/ece5-github-site/docs" target="_blank" rel="noopener">Browse all presentation files</a></p>
+    </section>
+
+    <section id="files">
+      <h2>Additional Materials - Source Code</h2>
+      <p>Our Arduino / ESP32 code files are available on GitHub.</p>
+      <ul id="code-files" class="file-list">
+        <li><a href="https://github.com/xiaoming12gh/Twenty2/blob/main/ece5-github-site/code/ESP32Potentiometer_Code.ino" target="_blank" rel="noopener">ESP32Potentiometer_Code.ino</a></li>
+        <li><a href="https://github.com/xiaoming12gh/Twenty2/blob/main/ece5-github-site/code/ESP32Photoresistor_Code.ino" target="_blank" rel="noopener">ESP32Photoresistor_Code.ino</a></li>
+      </ul>
+      <p class="small"><a href="https://github.com/xiaoming12gh/Twenty2/tree/main/ece5-github-site/code" target="_blank" rel="noopener">Browse all code files</a></p>
     </section>
 
     <section id="checklist">
-      <h2>Final Website Checklist</h2>
-      <p class="small">Our checklist based on the professor's requirements. We will check the items when they are actually complete.</p>
+      <h2>Additional Materials - Submission Checklist</h2>
+      <p class="small">Use this list for our final check. The sections above are placeholders until we add the actual material.</p>
       <ul>
-        <li>Team number, team name, and member names</li>
-        <li>Robot prototyping, parts, and assembly from Challenges 1 and 2</li>
-        <li>Final robot photos with arrows and labels</li>
-        <li>PID explanation, selected values, and speed tuning by track</li>
+        <li>Team number, team name, member names</li>
+        <li>Robot prototyping and assembly</li>
+        <li>Final robot photos with annotated features</li>
+        <li>PID explanation, chosen values and tuning for each track</li>
         <li>Optional code modifications</li>
         <li>Week 10 poster</li>
-        <li>Drag Race, Freq Sweep, and Loop results and rankings</li>
-        <li>Competition video and all-member team photo</li>
+        <li>Drag Race time/rank; Freq Sweep distance/time/rank; Loop count/rank</li>
+        <li>Competition video (at least one track)</li>
+        <li>Competition-day picture of all team members</li>
         <li>4-6 sentence reflection</li>
-        <li>Test that the website works for visitors who are not logged in</li>
+        <li>Test all website links in a private browser window</li>
       </ul>
     </section>
   </main>
+
   <footer>Team Twenty2 · UCSD ECE 5 · Fall 2026 · <a href="https://github.com/xiaoming12gh/Twenty2">GitHub</a></footer>
 
   <script>
@@ -256,10 +287,17 @@
       const data = await files("images"); if (!data) return;
       const photos = data.filter(f => /\.(png|jpg|jpeg|webp|gif)$/i.test(f.name));
       if (!photos.length) return;
-      const gallery = byId("gallery"); gallery.replaceChildren();
-      photos.forEach(file => gallery.append(makePhoto(file)));
       const finalPhoto = photos.find(f => /final[-_ ]?robot|annotated[-_ ]?robot/i.test(f.name));
       const team = photos.find(f => /team[-_ ]?photo|group[-_ ]?photo|team[-_ ]?picture/i.test(f.name));
+      const assembly = photos.filter(f => /assembly|chassis|assembled/i.test(f.name) && f !== finalPhoto && f !== team);
+      const prototypes = photos.filter(f => f !== finalPhoto && f !== team && !assembly.includes(f));
+      const gallery = byId("gallery"); gallery.replaceChildren();
+      prototypes.forEach(file => gallery.append(makePhoto(file)));
+      if (!prototypes.length) gallery.textContent = "Prototyping photos: not uploaded yet.";
+      if (assembly.length) {
+        const slot = byId("assembly-photos"); slot.className = "two"; slot.replaceChildren();
+        assembly.forEach(file => slot.append(makePhoto(file)));
+      }
       if (finalPhoto) byId("final-robot").replaceWith(makePhoto(finalPhoto,"Final robot - annotated"));
       if (team) byId("team-photo").replaceWith(makePhoto(team,"Team picture - competition day"));
       return photos;
