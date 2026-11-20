@@ -120,7 +120,7 @@ void loop() {
 
   PID_Turn();           // PID Control and Output to motors to turn
 
-  // RunMotors();          // Runs motors
+  RunMotors();          // Runs motors
   
   if (PRINTALLDATA)     // If PRINTALLDATA Enabled, Print all the data
     Print();         
