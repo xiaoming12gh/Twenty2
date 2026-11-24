@@ -37,7 +37,7 @@
 // ************************************************************************************************* //
 // Change Robot Settings here
 
-#define PRINTALLDATA        1  // Turn to 1  to prints ALL the data when changed to 1, Could be useful for debugging =)
+#define PRINTALLDATA        0  // Turn to 1  to prints ALL the data when changed to 1, Could be useful for debugging =)
                                 // !! Turn to 0 when running robot untethered
 #define NOMINALSPEED        30 // This is the base speed for both motors, can also be increased by using potentiometers
 
@@ -55,10 +55,10 @@ enum side {LEFT, RIGHT};
 int LDR_Pin[] = {1,2,3,4,5,6,7}; // SET PINS CONNECTED TO PHOTORESISTORS // FROM LEFT TO RIGHT OF THE ROBOT, ROBOT IS ORIENTED WHERE PHOTORESISOTRS FARTHEST FROM YOU AND WHEELS ARE CLOSEST TO YOU      
 
 // Potentiometer Pins
-const int S_pin = 13; // Pin connected to Speed potentiometer
-const int P_pin = 12; // Pin connected to P term potentiometer
-const int I_pin = 11; // Pin connected to I term potentiometer
-const int D_pin = 10; // Pin connected to D term potentiometer
+const int S_pin = 12; // Pin connected to Speed potentiometer
+const int P_pin = 11; // Pin connected to P term potentiometer
+const int I_pin = 10; // Pin connected to I term potentiometer
+const int D_pin = 9; // Pin connected to D term potentiometer
                                                                  
 const int illuminationPin = 14;
 int led_Pins[] = {21};  // LEDs to indicate what part of calibration you're on and to illuminate the photoresistors
